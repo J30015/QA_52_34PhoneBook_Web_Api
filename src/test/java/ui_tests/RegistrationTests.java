@@ -9,6 +9,8 @@ import pages.ContactsPage;
 import pages.HomePage;
 import pages.LoginPage;
 import utils.UserFactory;
+
+import static utils.PropertiesReader.getProperty;
 import static utils.UserFactory.*;
 
 import java.util.Random;
@@ -25,8 +27,8 @@ public class RegistrationTests extends AppManager {
     public void registrationPositiveTest(){
         int i = new Random().nextInt(1000);
         UserLombok user = UserLombok.builder()
-                .username("vbfgtuuy34" + i + "@fgyuk.bn")
-                .password("Akyert23!")
+                .username(getProperty("base.properties","email"))
+                .password(getProperty("base.properties","password"))
                 .build();
 //        LoginPage loginPage = new LoginPage(getDriver());
         loginPage.typeLoginRegistrationForm(user);
