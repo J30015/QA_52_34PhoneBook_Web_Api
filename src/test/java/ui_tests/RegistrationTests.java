@@ -1,5 +1,6 @@
 package ui_tests;
 
+import data_providers.UserDataProvider;
 import dto.UserLombok;
 import manager.AppManager;
 import org.testng.Assert;
@@ -27,8 +28,8 @@ public class RegistrationTests extends AppManager {
     public void registrationPositiveTest(){
         int i = new Random().nextInt(1000);
         UserLombok user = UserLombok.builder()
-                .username(getProperty("base.properties","email"))
-                .password(getProperty("base.properties","password"))
+                .username("victor198027@gmail.com")
+                .password("Qq1@Kk_com")
                 .build();
 //        LoginPage loginPage = new LoginPage(getDriver());
         loginPage.typeLoginRegistrationForm(user);
@@ -64,6 +65,37 @@ public class RegistrationTests extends AppManager {
         Assert.assertTrue(loginPage.closeAlert()
                 .contains("Wrong email or password format"));
     }
+
+    @Test
+    public void registrationNegativeEmptyEmailFieldTest(){
+        UserLombok user = positiveUser();
+        user.setUsername("");
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnRegistration();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("Wrong email or password format"));
+    }
+
+    @Test
+    public void registrationNegativeEmptyPasswordFieldTest(){
+        UserLombok user = positiveUser();
+        user.setPassword("");
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnRegistration();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("Wrong email or password format"));
+    }
+
+
+    @Test(dataProvider = "dataProviderWrongPasswordOrEmail",dataProviderClass = UserDataProvider.class)
+    public void registrationNegativeWrongPasswordTest(UserLombok user){
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnRegistration();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("Wrong email or password format"));
+    }
+
+
 
 
 }
