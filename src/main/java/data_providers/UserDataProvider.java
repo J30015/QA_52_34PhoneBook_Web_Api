@@ -12,21 +12,21 @@ import java.util.List;
 
 public class UserDataProvider {
     @DataProvider
-    public Iterator<UserLombok> dataProviderWrongPasswordOrEmail(){
+    public Iterator<UserLombok> dataProviderWrongPasswordOrEmail() {
         List<UserLombok> list = new ArrayList<>();
-        try(BufferedReader bufferedReader = new BufferedReader
+        try (BufferedReader bufferedReader = new BufferedReader
                 (new FileReader("src/main/resources/wrong_email - Sheet1.csv"))) {
             String line = bufferedReader.readLine();
-            while (line!= null){
+            while (line != null) {
                 String[] splitLine = line.split(",");
                 list.add(UserLombok.builder()
                         .username(splitLine[0])
                         .password(splitLine[1]).build());
-                line=bufferedReader.readLine();
+                line = bufferedReader.readLine();
             }
 
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("created exception");
         }
