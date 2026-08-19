@@ -11,20 +11,35 @@ import java.time.Duration;
 public abstract class BasePage {
     static WebDriver driver;
 
-    public void setDriver(WebDriver wd){
+    public void setDriver(WebDriver wd) {
         driver = wd;
     }
-    public boolean isTextInElementPresent(WebElement element,String text){
-      try{  return new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions
-                        .textToBePresentInElement(element, text));} catch (RuntimeException e) {
-          e.printStackTrace();
-          System.out.println("created exeption");
-      }
-      return false;
+
+    public boolean isTextInElementPresent(WebElement element, String text) {
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions
+                            .textToBePresentInElement(element, text));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            System.out.println("created exeption");
+        }
+        return false;
     }
-    public String closeAlert(){
-        Alert alert = new WebDriverWait(driver,Duration.ofSeconds(5))
+
+    public boolean isUrlContainsText(String text) {
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.urlContains(text));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    public String closeAlert() {
+        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.alertIsPresent());
         String text = alert.getText();
         alert.accept();
