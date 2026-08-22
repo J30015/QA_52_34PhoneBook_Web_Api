@@ -1,5 +1,6 @@
 package ui_tests;
 
+import data_providers.UserDataProvider;
 import dto.UserLombok;
 import manager.AppManager;
 import org.testng.Assert;
@@ -17,7 +18,7 @@ import static utils.PropertiesReader.*;
 
 public class LoginTests extends AppManager {
     LoginPage loginPage;
-    SoftAssert softAssert=new SoftAssert();
+    SoftAssert softAssert = new SoftAssert();
 
     @BeforeMethod
     public void goToRegistrationLoginPage() {
@@ -29,8 +30,8 @@ public class LoginTests extends AppManager {
     public void loginPositiveTest() {
 
         UserLombok user = UserLombok.builder()
-                .username(getProperty("base.properties","email"))
-                .password(getProperty("base.properties","password"))
+                .username(getProperty("base.properties", "email"))
+                .password(getProperty("base.properties", "password"))
                 .build();
         loginPage.typeLoginRegistrationForm(user);
         loginPage.clickBtnLogin();
@@ -45,7 +46,7 @@ public class LoginTests extends AppManager {
     }
 
     @Test
-    public void loginNegativeEmptyPasswordFieldTest(){
+    public void loginNegativeEmptyPasswordFieldTest() {
         UserLombok user = positiveUser();
         user.setPassword("");
         loginPage.typeLoginRegistrationForm(user);
@@ -53,14 +54,40 @@ public class LoginTests extends AppManager {
         Assert.assertTrue(loginPage.closeAlert()
                 .contains("Wrong email or password"));
     }
+
     @Test
-    public void loginNegativeAllFieldsEmptyTest(){
+    public void loginNegativeEmptyEmailFieldTest() {
+        UserLombok user = positiveUser();
+        user.setUsername("");
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnLogin();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("Wrong email or password"));
+    }
+
+    @Test
+    public void loginNegativeAllFieldsEmptyTest() {
         loginPage.clickBtnLogin();
 //        Assert.assertTrue(loginPage.closeAlert()
 //                .contains("Wrong email or password"));
-        Assert.assertEquals(loginPage.closeAlert(),"Wrong email or password");
+        Assert.assertEquals(loginPage.closeAlert(), "Wrong email or password");
 
     }
 
+    @Test(dataProvider = "dataProviderWrongPasswordForLogin", dataProviderClass = UserDataProvider.class)
+    public void registrationNegativeWrongPasswordTest(UserLombok user) {
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnRegistration();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("Wrong email or password format"));
+    }
+
+    @Test(dataProvider = "dataProviderWrongEmailForLogin", dataProviderClass = UserDataProvider.class)
+    public void registrationNegativeWrongEmailTest(UserLombok user) {
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnRegistration();
+        Assert.assertTrue(loginPage.closeAlert()
+                .contains("Wrong email or password format"));
+    }
 
 }
