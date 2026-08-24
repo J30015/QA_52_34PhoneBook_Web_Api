@@ -75,17 +75,17 @@ public class LoginTests extends AppManager {
     }
 
     @Test(dataProvider = "dataProviderWrongPasswordForLogin", dataProviderClass = UserDataProvider.class)
-    public void registrationNegativeWrongPasswordTest(UserLombok user) {
+    public void loginNegativeWrongPasswordTest(UserLombok user) {
         loginPage.typeLoginRegistrationForm(user);
-        loginPage.clickBtnRegistration();
+        loginPage.clickBtnLogin();
         Assert.assertTrue(loginPage.closeAlert()
                 .contains("Wrong email or password format"));
     }
 
     @Test(dataProvider = "dataProviderWrongEmailForLogin", dataProviderClass = UserDataProvider.class)
-    public void registrationNegativeWrongEmailTest(UserLombok user) {
+    public void loginNegativeWrongEmailTest(UserLombok user) {
         loginPage.typeLoginRegistrationForm(user);
-        loginPage.clickBtnRegistration();
+        loginPage.clickBtnLogin();
         Assert.assertTrue(loginPage.closeAlert()
                 .contains("Wrong email or password format"));
     }
