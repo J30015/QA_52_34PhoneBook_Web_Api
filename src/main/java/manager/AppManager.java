@@ -1,12 +1,15 @@
 package manager;
 
-import com.sun.jdi.Method;
+import java.lang.reflect.Method;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import utils.WDriverListener;
 
 
 public class AppManager {
@@ -22,7 +25,9 @@ public class AppManager {
     public void setup(Method method) {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-//    logger.info("Start testing with method -->" + method.getName());
+        logger.info("Start testing with method -->" + method.getName());
+        WDriverListener webDriverListener = new WDriverListener();
+        driver = new EventFiringDecorator<>(webDriverListener).decorate(driver);
 
     }
 
