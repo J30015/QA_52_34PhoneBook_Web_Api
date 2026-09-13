@@ -30,7 +30,7 @@ public class RegistrationTests extends AppManager {
         loginPage = new LoginPage(getDriver());
     }
 
-    @Test(groups = "smoke")
+    @Test
     public void registrationPositiveTest() {
         int i = new Random().nextInt(1000);
         UserLombok user = UserLombok.builder()
@@ -51,7 +51,7 @@ public class RegistrationTests extends AppManager {
 //        new HomePage(getDriver()).ajaxMethod();
 //    }
 
-    @Test
+    @Test(groups = "smoke")
     public void registrationPositiveWithFakerTest() {
         UserLombok user = positiveUser();
         System.out.println(user);
