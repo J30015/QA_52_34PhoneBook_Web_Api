@@ -23,14 +23,14 @@ import java.util.Random;
 public class RegistrationTests extends AppManager {
     LoginPage loginPage;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void goToRegistrationLoginPage() {
         logger.info("Start registration test");
         new HomePage(getDriver()).clickBtnLogin();
         loginPage = new LoginPage(getDriver());
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void registrationPositiveTest() {
         int i = new Random().nextInt(1000);
         UserLombok user = UserLombok.builder()
