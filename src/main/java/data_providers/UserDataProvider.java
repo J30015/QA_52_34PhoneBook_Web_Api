@@ -40,7 +40,7 @@ public class UserDataProvider {
     public Iterator<UserLombok> dataProviderWrongEmailForRegistration() {
         List<UserLombok> list = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader
-                (new FileReader("src/test/resources/error_email_for_registration.csv"))) {
+                (new FileReader("src/test/resources/wrong_email_for_registration"))) {
             String line = bufferedReader.readLine();
             while (line != null) {
                 String[] splitLine = line.split(",");
